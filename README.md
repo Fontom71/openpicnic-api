@@ -3,7 +3,7 @@ An API for the OpenPicNic application
 
 ## Installation
 
-define the following environment variables:
+Define the following environment variables:
 
 Database connection:
 * `DATABASE_HOST` - the host of the database
@@ -15,6 +15,8 @@ Database connection:
 The URL of the site
 * `SITE_URL` - the url of the site
 * `PORT` - the port of the site
+
+⚠ You must be define the following environment variables in the `.env` file otherwise the application will not work.
 
 ### Requirements
 
