@@ -28,3 +28,7 @@ The URL of the site
 * Express
 * MySQL
 * Dotenv
+
+#### Information
+
+If the installation fails, delete the `package-lock.json` file and run `npm install` again.
