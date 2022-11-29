@@ -8,6 +8,7 @@ const dbName = process.env.DATABASE_NAME || "test";
 const dbHost = process.env.DATABASE_HOST || "localhost";
 const dbPort = process.env.DATABASE_PORT || 3306;
 const db = require("./database/db");
+const { basicAuth } = require("./utils/middleware");
 
 db.connect((err) => {
   if (err) {
@@ -22,6 +23,8 @@ db.connect((err) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(basicAuth);
 
 app.use("/api", router);
 
