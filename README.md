@@ -16,6 +16,10 @@ The URL of the site
 * `SITE_URL` - the url of the site
 * `PORT` - the port of the site
 
+Connection to the API server
+* `API_USERNAME` - the username of the API server
+* `API_PASSWORD` - the password of the API server
+
 ⚠ You must be define the following environment variables in the `.env` file otherwise the application will not work.
 
 ### Requirements
