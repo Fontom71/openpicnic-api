@@ -24,7 +24,7 @@ Connection to the API server
 
 ### Requirements
 
-* Node.js installed
+* Node.js installed (v16.18.1 tested)
 * MySQL server
 
 ### Dependencies
