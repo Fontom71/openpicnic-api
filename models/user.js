@@ -84,6 +84,7 @@ User.updateById = (id, user, result) => {
         return;
       }
 
+      console.log("updated user: ", { id: id, ...user });
       result(null, { id: id, ...user });
     }
   );
@@ -103,6 +104,7 @@ User.remove = (id, result) => {
       return;
     }
 
+    console.log("deleted user with id: ", id);
     result(null, res);
   });
 };
@@ -115,6 +117,7 @@ User.removeAll = (result) => {
       return;
     }
 
+    console.log(`deleted ${res.affectedRows} users`);
     result(null, res);
   });
 };
