@@ -3,13 +3,13 @@ const avis = require("../../controllers/avis");
 
 router.get("/", avis.findAll);
 
-router.get("/:id", avis.findOne);
+router.get("/:idU/:idL", avis.findOne);
 
 router.post("/", avis.create);
 
-router.put("/:id", avis.update);
+router.put("/:idU/:idL", avis.update);
 
-router.delete("/:id", avis.delete);
+router.delete("/:idU/:idL", avis.delete);
 
 router.delete("/", avis.deleteAll);
 

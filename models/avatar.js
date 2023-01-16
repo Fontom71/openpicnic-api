@@ -2,8 +2,8 @@ const sql = require("../database/db.js");
 
 // constructor
 const Avatar = function (avatar) {
-  this.nom = avatar.nom;
-  this.url = avatar.url;
+  this.nomAvatar = avatar.nomAvatar;
+  this.imageURL = avatar.imageURL;
 };
 
 Avatar.create = (newAvatar, result) => {
@@ -52,8 +52,8 @@ Avatar.getAll = (result) => {
 
 Avatar.updateById = (id, avatar, result) => {
   sql.query(
-    "UPDATE avatar SET nom = ?, url = ? WHERE idAvatar = ?",
-    [avatar.nom, avatar.url, id],
+    "UPDATE avatar SET nomAvatar = ?, imageURL = ? WHERE idAvatar = ?",
+    [avatar.nomAvatar, avatar.imageURL, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

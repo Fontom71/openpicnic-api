@@ -1,4 +1,4 @@
-const avis = require("../models/avis.js");
+const attribut = require("../models/attribut.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -7,41 +7,41 @@ exports.create = (req, res) => {
     });
   }
 
-  avis.create(req.body, (err, data) => {
+  attribut.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
         message:
           err.message ||
-          "Une erreur s'est produite lors de la création de l'avis.",
+          "Une erreur s'est produite lors de la création de l'attribut.",
       });
     } else res.send(data);
   });
 };
 
 exports.findAll = (req, res) => {
-  avis.getAll((err, data) => {
+  attribut.getAll((err, data) => {
     if (err) {
       res.status(500).send({
         message:
           err.message ||
-          "Une erreur s'est produite lors de la récupération des avis.",
+          "Une erreur s'est produite lors de la récupération des attributs.",
       });
     } else res.send(data);
   });
 };
 
 exports.findOne = (req, res) => {
-  avis.findById(req.params.idU, req.params.idL, (err, data) => {
+  attribut.findById(req.params.idL, req.params.idE, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Avis introuvable avec l'id ${req.params.idU}.`,
+          message: `Equipement introuvable avec l'id ${req.params.idL}.`,
         });
       } else {
         res.status(500).send({
           message:
-            "Erreur lors de la récupération de l'avis avec l'id " +
-            req.params.idU,
+            "Erreur lors de la récupération de l'attribut avec l'id " +
+            req.params.id,
         });
       }
     } else res.send(data);
@@ -55,17 +55,17 @@ exports.update = (req, res) => {
     });
   }
 
-  avis.updateById(req.params.idU, req.params.idL, req.body, (err, data) => {
+  attribut.updateById(req.params.idL, req.params.idE, req.body, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Avis introuvable avec l'id ${req.params.idU}.`,
+          message: `Equipement introuvable avec l'id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
           message:
-            "Erreur lors de la mise à jour de l'avis avec l'id " +
-            req.params.idU,
+            "Erreur lors de la mise à jour de l'attribut avec l'id " +
+            req.params.id,
         });
       }
     } else res.send(data);
@@ -73,30 +73,33 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  avis.remove(req.params.idU, req.params.idL, (err, data) => {
+  attribut.remove(req.params.idL, req.params.idE, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Avis introuvable avec l'id ${req.params.id}.`,
+          message: `Equipement introuvable avec l'id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Impossible de supprimer l'avis avec l'id " + req.params.id,
+          message:
+            "Impossible de supprimer l'attribut avec l'id " + req.params.id,
         });
       }
-    } else res.send({ message: `Avis supprimé avec succès!` });
+    } else res.send({ message: `Equipement supprimé avec succès!` });
   });
 };
 
 exports.deleteAll = (req, res) => {
-  avis.removeAll((err, data) => {
+  attribut.removeAll((err, data) => {
     if (err) {
       res.status(500).send({
         message:
           err.message ||
-          "Une erreur s'est produite lors de la suppression des avis.",
+          "Une erreur s'est produite lors de la suppression des attributs.",
       });
     } else
-      res.send({ message: `Tous les avis ont été supprimés avec succès!` });
+      res.send({
+        message: `Tous les attributs ont été supprimés avec succès!`,
+      });
   });
 };

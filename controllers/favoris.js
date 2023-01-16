@@ -1,4 +1,4 @@
-const equipements = require("../models/equipements.js");
+const favoris = require("../models/favoris.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -7,41 +7,41 @@ exports.create = (req, res) => {
     });
   }
 
-  equipements.create(req.body, (err, data) => {
+  favoris.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
         message:
           err.message ||
-          "Une erreur s'est produite lors de la création de l'équipement.",
+          "Une erreur s'est produite lors de la création du favoris.",
       });
     } else res.send(data);
   });
 };
 
 exports.findAll = (req, res) => {
-  equipements.getAll((err, data) => {
+  favoris.getAll((err, data) => {
     if (err) {
       res.status(500).send({
         message:
           err.message ||
-          "Une erreur s'est produite lors de la récupération des équipements.",
+          "Une erreur s'est produite lors de la récupération des favoris.",
       });
     } else res.send(data);
   });
 };
 
 exports.findOne = (req, res) => {
-  equipements.findById(req.params.id, (err, data) => {
+  favoris.findById(req.params.idU, req.params.idL, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Equipement introuvable avec l'id ${req.params.id}.`,
+          message: `Favoris introuvable avec l'id ${req.params.idU}.`,
         });
       } else {
         res.status(500).send({
           message:
-            "Erreur lors de la récupération de l'équipement avec l'id " +
-            req.params.id,
+            "Erreur lors de la récupération du favoris avec l'id " +
+            req.params.idU,
         });
       }
     } else res.send(data);
@@ -55,17 +55,17 @@ exports.update = (req, res) => {
     });
   }
 
-  equipements.updateById(req.params.id, req.body, (err, data) => {
+  favoris.updateById(req.params.idU, req.params.idL, req.body, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Equipement introuvable avec l'id ${req.params.id}.`,
+          message: `Favoris introuvable avec l'id ${req.params.idU}.`,
         });
       } else {
         res.status(500).send({
           message:
-            "Erreur lors de la mise à jour de l'équipement avec l'id " +
-            req.params.id,
+            "Erreur lors de la mise à jour du favoris avec l'id " +
+            req.params.idU,
         });
       }
     } else res.send(data);
@@ -73,33 +73,32 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  equipements.remove(req.params.id, (err, data) => {
+  favoris.remove(req.params.idU, req.params.idL, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Equipement introuvable avec l'id ${req.params.id}.`,
+          message: `Favoris introuvable avec l'id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
           message:
-            "Impossible de supprimer l'équipement avec l'id " + req.params.id,
+            "Erreur lors de la suppression du favoris avec l'id " +
+            req.params.id,
         });
       }
-    } else res.send({ message: `Equipement supprimé avec succès!` });
+    } else res.send({ message: `Favoris supprimé avec succès!` });
   });
 };
 
 exports.deleteAll = (req, res) => {
-  equipements.removeAll((err, data) => {
+  favoris.removeAll((err, data) => {
     if (err) {
       res.status(500).send({
         message:
           err.message ||
-          "Une erreur s'est produite lors de la suppression des équipements.",
+          "Une erreur s'est produite lors de la suppression des favoris.",
       });
     } else
-      res.send({
-        message: `Tous les équipements ont été supprimés avec succès!`,
-      });
+      res.send({ message: `Tous les favoris ont été supprimés avec succès!` });
   });
 };

@@ -2,7 +2,6 @@ const sql = require("../database/db.js");
 
 // constructor
 const Equipement = function (equipement) {
-  this.nom = equipement.nom;
   this.description = equipement.description;
 };
 
@@ -55,8 +54,8 @@ Equipement.getAll = (result) => {
 
 Equipement.updateById = (id, equipement, result) => {
   sql.query(
-    "UPDATE equipement SET nom = ?, description = ? WHERE idEquipement = ?",
-    [equipement.nom, equipement.description, id],
+    "UPDATE equipement SET description = ? WHERE idEquipement = ?",
+    [equipement.description, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

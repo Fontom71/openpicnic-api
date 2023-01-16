@@ -2,7 +2,7 @@ const sql = require("../database/db");
 
 // constructor
 const Avis = function (avis) {
-  this.pseudo = avis.pseudo;
+  this.idUtilisateur = avis.idUtilisateur;
   this.idLocalisation = avis.idLocalisation;
   this.titre = avis.titre;
   this.message = avis.message;
@@ -23,23 +23,26 @@ Avis.create = (newAvis, result) => {
   });
 };
 
-Avis.findById = (avisId, result) => {
-  sql.query(`SELECT * FROM avis WHERE idAvis = ${avisId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+Avis.findById = (idU, idL, result) => {
+  sql.query(
+    `SELECT * FROM avis WHERE idUtilisateur = ${idU} AND idLocalisation = ${idL}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log("found avis: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
+      if (res.length) {
+        console.log("found avis: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
 
-    // not found Avis with the id
-    result({ kind: "not_found" }, null);
-  });
+      // not found Avis with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
 };
 
 Avis.getAll = (result) => {
@@ -54,18 +57,10 @@ Avis.getAll = (result) => {
   });
 };
 
-Avis.updateById = (id, avis, result) => {
+Avis.updateById = (idU, idL, avis, result) => {
   sql.query(
-    "UPDATE avis SET pseudo = ?, idLocalisation = ?, titre = ?, message = ?, dateAvis = ?, note = ? WHERE idAvis = ?",
-    [
-      avis.pseudo,
-      avis.idLocalisation,
-      avis.titre,
-      avis.message,
-      avis.dateAvis,
-      avis.note,
-      id,
-    ],
+    "UPDATE avis SET titre = ?, message = ?, dateAvis = ?, note = ? WHERE idUtilisateur = ? AND idLocalisation = ?",
+    [avis.titre, avis.message, avis.dateAvis, avis.note, idU, idL],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -79,29 +74,33 @@ Avis.updateById = (id, avis, result) => {
         return;
       }
 
-      console.log("updated avis: ", { id: id, ...avis });
-      result(null, { id: id, ...avis });
+      console.log("updated avis: ", { id: idU, ...avis });
+      result(null, { id: idU, ...avis });
     }
   );
 };
 
-Avis.remove = (id, result) => {
-  sql.query("DELETE FROM avis WHERE idAvis = ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+Avis.remove = (idU, idL, result) => {
+  sql.query(
+    "DELETE FROM avis WHERE idUtilisateur = ? AND idLocalisation = ?",
+    [idU, idL],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
 
-    if (res.affectedRows == 0) {
-      // not found Avis with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
+      if (res.affectedRows == 0) {
+        // not found Avis with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
 
-    console.log("deleted avis with id: ", id);
-    result(null, res);
-  });
+      console.log("deleted avis with id: ", idU);
+      result(null, res);
+    }
+  );
 };
 
 Avis.removeAll = (result) => {
