@@ -31,29 +31,21 @@ exports.find = (req, res) => {
     });
   } else {
     if (req.query.idL) {
-      avis
-        .findByIdL(req.query.idL, (err, data) => {
-          if (err) {
-            if (err.kind === "not_found") {
-              res.status(404).send({
-                message: `Avis introuvable avec l'id ${req.query.idL}.`,
-              });
-            } else {
-              res.status(500).send({
-                message:
-                  "Erreur lors de la récupération de l'avis avec l'id " +
-                  req.query.idL,
-              });
-            }
-          } else res.send(data);
-        })
-        .catch((err) => {
-          res.status(500).send({
-            message:
-              err.message ||
-              "Une erreur s'est produite lors de la récupération des avis.",
-          });
-        });
+      avis.findByIdL(req.query.idL, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Avis introuvable avec l'id ${req.query.idL}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération de l'avis avec l'id " +
+                req.query.idL,
+            });
+          }
+        } else res.send(data);
+      });
     } else {
       avis.findByIdU(req.query.idU, (err, data) => {
         if (err) {
