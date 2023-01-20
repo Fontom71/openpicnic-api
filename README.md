@@ -24,10 +24,16 @@ Connection to the API server
 
 ### Requirements
 
-* Node.js installed (v16.18.1 tested)
-* MySQL server
+#### Software
 
-### Dependencies
+* NodeJS v16.18.1 (or higher) (required)
+* MySQL v10.5.15 (or higher) (required)
+* PM2 v5.1.2 (or higher) (optional)
+* PHPMyAdmin v5.0.4 (or higher) (optional)
+* Apache v2.4.54 (or higher) (optional)
+* FTP Server (vsftpd) (required)
+
+#### Dependencies
 
 * Express
 * MySQL
@@ -407,6 +413,17 @@ The API uses basic authentication. The username and password are defined in the 
 | :-------- | :------- | :------------------------- |
 | `idU`     | `number` | **Required**. User id      |
 | `idL`     | `number` | **Required**. Location id  |
+
+## Tools and technologies
+
+* [NodeJS](https://nodejs.org/en/)
+* [NPM](https://www.npmjs.com/)
+* [PM2](https://pm2.keymetrics.io/)
+* [MySQL](https://www.mysql.com/)
+* [PhpMyAdmin](https://www.phpmyadmin.net/)
+* [Postman](https://www.postman.com/)
+* [Git](https://git-scm.com/)
+* [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Authors
 
