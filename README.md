@@ -37,151 +37,380 @@ Connection to the API server
 
 If the installation fails, delete the `package-lock.json` file and run `npm install` again.
 
-### Routes
+## Usage/Examples
 
-#### GET /api/avatar
+### Start the server
 
-Returns the avatars of the users.
+#### NPM
 
-#### GET /api/avatar/:id
+```bash
+  npm start
+```
 
-Returns the avatar of the user with the specified id.
+#### PM2
 
-#### GET /api/avis
+```bash
+  pm2 start npm --name "openpicnic-api" -- start
+```
 
-Returns the avis.
+## Authentication
 
-#### GET /api/avis/:id
+The API uses basic authentication. The username and password are defined in the environment variables.
 
-Returns the avis with the specified id.
+## API Reference
 
-#### GET /api/equipement
+#### Get all users
 
-Returns the equipements.
+```http
+  GET /api/users
+```
 
-#### GET /api/equipement/:id
+#### Get a user
 
-Returns the equipement with the specified id.
+```http
+  GET /api/users?id=${id} or /api/users?email=${email}
+```
 
-#### GET /api/equipements
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id`      | `number` | **Required**. User id      |
+| `email`   | `string` | **Required**. User email   |
 
-Returns the list of equipements.
+#### Create a user
 
-#### GET /api/equipements/:id
+```http
+  POST /api/users
+```
 
-Returns the list of equipements with the specified id.
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `nom`     | `string` | **Required**. User last name      |
+| `prenom`  | `string` | **Required**. User first name     |
+| `email`   | `string` | **Required**. User email          |
+| `password`| `string` | **Required**. User password       |
+| `isAdmin` | `boolean`| **Not required**. User is admin   |
+| `idAvatar`| `number` | **Not required**. User avatar id  |
 
-#### GET /api/localisation
+#### Update a user
 
-Returns the localisations.
+```http
+  PUT /api/users
+```
 
-#### GET /api/localisation/:id
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `number` | **Required**. User id             |
+| `nom`     | `string` | **Not required**. User last name  |
+| `prenom`  | `string` | **Not required**. User first name |
+| `email`   | `string` | **Not required**. User email      |
+| `password`| `string` | **Not required**. User password   |
+| `isAdmin` | `boolean`| **Not required**. User is admin   |
+| `idAvatar`| `number` | **Not required**. User avatar id  |
 
-Returns the localisation with the specified id.
+#### Delete a user
 
-#### GET /api/user
+```http
+  DELETE /api/users?id=${id}
+```
 
-Returns the users.
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id`      | `number` | **Required**. User id      |
 
-#### GET /api/user/:id
+#### Get all avatars
 
-Returns the user with the specified id.
+```http
+  GET /api/avatar
+```
 
-#### POST /api/avatar
+#### Get an avatar
 
-Creates a new avatar.
+```http
+  GET /api/avatar?idAvatar=${idAvatar}
+```
 
-#### POST /api/avis
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idAvatar`| `number` | **Required**. Avatar id    |
 
-Creates a new avis.
+#### Create an avatar
 
-#### POST /api/equipement
+```http
+  POST /api/avatar
+```
 
-Creates a new equipement.
+| Parameter  | Type     | Description                       |
+| :--------  | :------- | :-------------------------------- |
+| `nomAvatar`| `string` | **Required**. Avatar name         |
+| `imageURL` | `string` | **Required**. Avatar image url    |
 
-#### POST /api/equipements
+#### Update an avatar
 
-Creates a new equipements.
+```http
+  PUT /api/avatar
+```
 
-#### POST /api/localisation
+| Parameter  | Type     | Description                       |
+| :--------  | :------- | :-------------------------------- |
+| `idAvatar` | `number` | **Required**. Avatar id           |
+| `nomAvatar`| `string` | **Not required**. Avatar name     |
+| `imageURL` | `string` | **Not required**. Avatar image url|
 
-Creates a new localisation.
+#### Delete an avatar
 
-#### POST /api/user
+```http
+  DELETE /api/avatar?idAvatar=${idAvatar}
+```
 
-Creates a new user.
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idAvatar`| `number` | **Required**. Avatar id    |
 
-#### PUT /api/avatar/:id
+#### Get all attributes
 
-Updates the avatar with the specified id.
+```http
+  GET /api/attribut
+```
 
-#### PUT /api/avis/:id
+#### Get an attribute
 
-Updates the avis with the specified id.
+```http
+  GET /api/attribut?idE=${idE}&idL=${idL}
+```
 
-#### PUT /api/equipement/:id
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idE`     | `number` | **Required**. Equipment id |
+| `idL`     | `number` | **Required**. Location id  |
 
-Updates the equipement with the specified id.
+#### Create an attribute
 
-#### PUT /api/equipements/:id
+```http
+  POST /api/attribut
+```
 
-Updates the equipements with the specified id.
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `idE`     | `number` | **Required**. Equipment id        |
+| `idL`     | `number` | **Required**. Location id         |
 
-#### PUT /api/localisation/:id
+#### Delete an attribute
 
-Updates the localisation with the specified id.
+```http
+  DELETE /api/attribut?idE=${idE}&idL=${idL}
+```
 
-#### PUT /api/user/:id
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idE`     | `number` | **Required**. Equipment id |
+| `idL`     | `number` | **Required**. Location id  |
 
-Updates the user with the specified id.
+#### Get all equipments
 
-#### DELETE /api/avatar
+```http
+  GET /api/equipement
+```
 
-Deletes all the avatars.
+#### Get an equipment
 
-#### DELETE /api/avatar/:id
+```http
+  GET /api/equipement?id=${id} or /api/equipement?description=${description}
+```
 
-Deletes the avatar with the specified id.
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id`      | `number` | **Required**. Equipment id |
+| `description`| `string` | **Required**. Equipment description |
 
-#### DELETE /api/avis
+#### Create an equipment
 
-Deletes all the avis.
+```http
+  POST /api/equipement
+```
 
-#### DELETE /api/avis/:id
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `description`| `string` | **Required**. Equipment description |
 
-Deletes the avis with the specified id.
+#### Update an equipment
 
-#### DELETE /api/equipement
+```http
+  PUT /api/equipement
+```
 
-Deletes all the equipements.
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `number` | **Required**. Equipment id        |
+| `description`| `string` | **Not required**. Equipment description |
 
-#### DELETE /api/equipement/:id
+#### Delete an equipment
 
-Deletes the equipement with the specified id.
+```http
+  DELETE /api/equipement?id=${id}
+```
 
-#### DELETE /api/equipements
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id`      | `number` | **Required**. Equipment id |
 
-Deletes all the equipements.
+#### Get all locations
 
-#### DELETE /api/equipements/:id
+```http
+  GET /api/localisation
+```
 
-Deletes the equipements with the specified id.
+#### Get a location
 
-#### DELETE /api/localisation
+```http
+  GET /api/localisation?id=${id} or /api/localisation?nom=${nom}
+```
 
-Deletes all the localisations.
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id`      | `number` | **Required**. Location id  |
+| `nom`     | `string` | **Required**. Location name|
 
-#### DELETE /api/localisation/:id
+#### Create a location
 
-Deletes the localisation with the specified id.
+```http
+  POST /api/localisation
+```
 
-#### DELETE /api/user
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `nom`     | `string` | **Required**. Location name       |
+| `description`| `string` | **Not required**. Location description |
+| `imageURL`| `string` | **Not required**. Location image url |
+| `note`    | `string` | **Not required**. Location note   |
+| `latitude`| `number` | **Not required**. Location latitude |
+| `longitude`| `number` | **Not required**. Location longitude |
 
-Deletes all the users.
+#### Update a location
 
-#### DELETE /api/user/:id
+```http
+  PUT /api/localisation
+```
 
-Deletes the user with the specified id.
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `number` | **Required**. Location id         |
+| `nom`     | `string` | **Not required**. Location name   |
+| `description`| `string` | **Not required**. Location description |
+| `imageURL`| `string` | **Not required**. Location image url |
+| `note`    | `string` | **Not required**. Location note   |
+| `latitude`| `number` | **Not required**. Location latitude |
+| `longitude`| `number` | **Not required**. Location longitude |
+
+#### Delete a location
+
+```http
+  DELETE /api/localisation?id=${id}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id`      | `number` | **Required**. Location id  |
+
+#### Get all avis
+
+```http
+  GET /api/avis
+```
+
+#### Get an avis
+
+```http
+  GET /api/avis?idU=${idU}&idL=${idL}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idU`     | `number` | **Required**. User id      |
+| `idL`     | `number` | **Required**. Location id  |
+
+#### Create an avis
+
+```http
+  POST /api/avis
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `idU`     | `number` | **Required**. User id             |
+| `idL`     | `number` | **Required**. Location id         |
+| `titre`   | `string` | **Not required**. Avis title      |
+| `message` | `string` | **Not required**. Avis message    |
+| `dateAvis`| `string` | **Not required**. Avis date       |
+| `note`    | `number` | **Not required**. Avis note       |
+
+#### Update an avis
+
+```http
+  PUT /api/avis
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `idU`     | `number` | **Required**. User id             |
+| `idL`     | `number` | **Required**. Location id         |
+| `titre`   | `string` | **Not required**. Avis title      |
+| `message` | `string` | **Not required**. Avis message    |
+| `dateAvis`| `string` | **Not required**. Avis date       |
+| `note`    | `number` | **Not required**. Avis note       |
+
+#### Delete an avis
+
+```http
+  DELETE /api/avis?idU=${idU}&idL=${idL}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idU`     | `number` | **Required**. User id      |
+| `idL`     | `number` | **Required**. Location id  |
+
+#### Get all favorites
+
+```http
+  GET /api/favoris
+```
+
+#### Get a favorite
+
+```http
+  GET /api/favoris?idU=${idU}&idL=${idL}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idU`     | `number` | **Required**. User id      |
+| `idL`     | `number` | **Required**. Location id  |
+
+#### Create a favorite
+
+```http
+  POST /api/favoris
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `idU`     | `number` | **Required**. User id             |
+| `idL`     | `number` | **Required**. Location id         |
+
+#### Delete a favorite
+
+```http
+  DELETE /api/favoris?idU=${idU}&idL=${idL}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `idU`     | `number` | **Required**. User id      |
+| `idL`     | `number` | **Required**. Location id  |
+
+## Authors
+
+- [@Fontom's](https://github.com/Fontom71)
 
 ## License
 

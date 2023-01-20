@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const attribut = require("../../controllers/attribut");
 
-router.get("/", attribut.findAll);
-
-router.get("/:idL/:idE", attribut.findOne);
+router.get("/", attribut.find);
 
 router.post("/", attribut.create);
 

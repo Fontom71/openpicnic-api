@@ -19,9 +19,31 @@ Favoris.create = (newFavoris, result) => {
   });
 };
 
-Favoris.findById = (idU, idL, result) => {
+Favoris.findByIdL = (idL, result) => {
   sql.query(
-    `SELECT * FROM favoris WHERE idUtilisateur = ${idU} AND idLocalisation = ${idL}`,
+    `SELECT * FROM favoris WHERE idLocalisation = ${idL}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found favoris: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      // not found Favoris with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+Favoris.findByIdU = (idU, result) => {
+  sql.query(
+    `SELECT * FROM favoris WHERE idUtilisateur = ${idU}`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

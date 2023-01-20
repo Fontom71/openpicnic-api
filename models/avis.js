@@ -23,26 +23,42 @@ Avis.create = (newAvis, result) => {
   });
 };
 
-Avis.findById = (idU, idL, result) => {
-  sql.query(
-    `SELECT * FROM avis WHERE idUtilisateur = ${idU} AND idLocalisation = ${idL}`,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (res.length) {
-        console.log("found avis: ", res[0]);
-        result(null, res[0]);
-        return;
-      }
-
-      // not found Avis with the id
-      result({ kind: "not_found" }, null);
+Avis.findByIdL = (idL, result) => {
+  sql.query(`SELECT * FROM avis WHERE idLocalisation = ${idL}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
     }
-  );
+
+    if (res.length) {
+      console.log("found avis: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Avis with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Avis.findByIdU = (idU, result) => {
+  sql.query(`SELECT * FROM avis WHERE idUtilisateur = ${idU}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found avis: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Avis with the id
+    result({ kind: "not_found" }, null);
+  });
 };
 
 Avis.getAll = (result) => {

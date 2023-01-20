@@ -40,6 +40,28 @@ Equipement.findById = (equipementId, result) => {
   );
 };
 
+Equipement.findByDescription = (description, result) => {
+  sql.query(
+    `SELECT * FROM equipement WHERE description = ${description}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found equipement: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      // not found Equipement with the description
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
 Equipement.getAll = (result) => {
   sql.query("SELECT * FROM equipement", (err, res) => {
     if (err) {

@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const avatar = require("../../controllers/avatar");
 
-router.get("/", avatar.findAll);
-
-router.get("/:id", avatar.findOne);
+router.get("/", avatar.find);
 
 router.post("/", avatar.create);
 

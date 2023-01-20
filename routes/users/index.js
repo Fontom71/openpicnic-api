@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const user = require("../../controllers/user");
 
-router.get("/", user.findAll);
-
-router.get("/:id", user.findOne);
+router.get("/", user.find);
 
 router.post("/", user.create);
 

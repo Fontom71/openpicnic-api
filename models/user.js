@@ -23,28 +23,6 @@ User.create = (newUser, result) => {
   });
 };
 
-User.findById = (userId, result) => {
-  sql.query(
-    `SELECT * FROM utilisateur WHERE idUtilisateur = ${userId}`,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (res.length) {
-        console.log("found user: ", res[0]);
-        result(null, res[0]);
-        return;
-      }
-
-      // not found User with the id
-      result({ kind: "not_found" }, null);
-    }
-  );
-};
-
 User.getAll = (result) => {
   sql.query("SELECT * FROM utilisateur", (err, res) => {
     if (err) {
@@ -122,6 +100,50 @@ User.removeAll = (result) => {
     console.log(`deleted ${res.affectedRows} users`);
     result(null, res);
   });
+};
+
+User.findByEmail = (email, result) => {
+  sql.query(
+    `SELECT * FROM utilisateur WHERE email = '${email}'`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found user: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      // not found User with the email
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+User.findById = (id, result) => {
+  sql.query(
+    `SELECT * FROM utilisateur WHERE idUtilisateur = '${id}'`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found user: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      // not found User with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
 };
 
 module.exports = User;

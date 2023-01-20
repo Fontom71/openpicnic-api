@@ -19,9 +19,31 @@ Attribut.create = (newAttribut, result) => {
   });
 };
 
-Attribut.findById = (idL, idE, result) => {
+Attribut.findByIdL = (idL, result) => {
   sql.query(
-    `SELECT * FROM attribut WHERE IdLocalisation = ${idL} AND IdEquipement = ${idE}`,
+    `SELECT * FROM attribut WHERE IdLocalisation = ${idL}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found attribut: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      // not found Attribut with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+Attribut.findByIdE = (idE, result) => {
+  sql.query(
+    `SELECT * FROM attribut WHERE IdEquipement = ${idE}`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

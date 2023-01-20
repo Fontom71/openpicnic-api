@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const favoris = require("../../controllers/favoris");
 
-router.get("/", favoris.findAll);
-
-router.get("/:idU/:idL", favoris.findOne);
+router.get("/", favoris.find);
 
 router.post("/", favoris.create);
 

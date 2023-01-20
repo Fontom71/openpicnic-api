@@ -18,34 +18,52 @@ exports.create = (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
-  user.getAll((err, data) => {
-    if (err) {
-      res.status(500).send({
-        message:
-          err.message ||
-          "Une erreur s'est produite lors de la récupération des utilisateurs.",
-      });
-    } else res.send(data);
-  });
-};
-
-exports.findOne = (req, res) => {
-  user.findById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Utilisateur introuvable avec l'id ${req.params.id}.`,
-        });
-      } else {
+exports.find = (req, res) => {
+  if (!req.query.id && !req.query.email) {
+    user.getAll((err, data) => {
+      if (err)
         res.status(500).send({
           message:
-            "Erreur lors de la récupération de l'utilisateur avec l'id " +
-            req.params.id,
+            err.message ||
+            "Une erreur s'est produite lors de la récupération des utilisateurs.",
         });
-      }
-    } else res.send(data);
-  });
+      else res.send(data);
+    });
+  } else {
+    if (req.query.email) {
+      user.findByEmail(req.query.email, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Utilisateur introuvable avec l'email ${req.query.email}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération de l'utilisateur avec l'email " +
+                req.query.email,
+            });
+          }
+        } else res.send(data);
+      });
+    } else {
+      user.findById(req.query.id, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Utilisateur introuvable avec l'id ${req.query.id}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération de l'utilisateur avec l'id " +
+                req.query.id,
+            });
+          }
+        } else res.send(data);
+      });
+    }
+  }
 };
 
 exports.update = (req, res) => {

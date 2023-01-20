@@ -18,34 +18,52 @@ exports.create = (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
-  attribut.getAll((err, data) => {
-    if (err) {
-      res.status(500).send({
-        message:
-          err.message ||
-          "Une erreur s'est produite lors de la récupération des attributs.",
-      });
-    } else res.send(data);
-  });
-};
-
-exports.findOne = (req, res) => {
-  attribut.findById(req.params.idL, req.params.idE, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Equipement introuvable avec l'id ${req.params.idL}.`,
-        });
-      } else {
+exports.find = (req, res) => {
+  if (!req.query.idL && !req.query.idE) {
+    attribut.getAll((err, data) => {
+      if (err)
         res.status(500).send({
           message:
-            "Erreur lors de la récupération de l'attribut avec l'id " +
-            req.params.id,
+            err.message ||
+            "Une erreur s'est produite lors de la récupération des attributs.",
         });
-      }
-    } else res.send(data);
-  });
+      else res.send(data);
+    });
+  } else {
+    if (req.query.idL) {
+      attribut.findByIdL(req.query.idL, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Attribut introuvable avec l'id ${req.query.idL}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération de l'attribut avec l'id " +
+                req.query.idL,
+            });
+          }
+        } else res.send(data);
+      });
+    } else {
+      attribut.findByIdE(req.query.idE, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Attribut introuvable avec l'id ${req.query.idE}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération de l'attribut avec l'id " +
+                req.query.idE,
+            });
+          }
+        } else res.send(data);
+      });
+    }
+  }
 };
 
 exports.update = (req, res) => {

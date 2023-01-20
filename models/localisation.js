@@ -48,6 +48,25 @@ Localisation.findById = (localisationId, result) => {
   );
 };
 
+Localisation.findByNom = (nom, result) => {
+  sql.query(`SELECT * FROM localisation WHERE nom = ${nom}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found localisation: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Localisation with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 Localisation.getAll = (result) => {
   sql.query("SELECT * FROM localisation", (err, res) => {
     if (err) {

@@ -18,34 +18,34 @@ exports.create = (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
-  avatar.getAll((err, data) => {
-    if (err) {
-      res.status(500).send({
-        message:
-          err.message ||
-          "Une erreur s'est produite lors de la récupération des avatars.",
-      });
-    } else res.send(data);
-  });
-};
-
-exports.findOne = (req, res) => {
-  avatar.findById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Avatar introuvable avec l'id ${req.params.id}.`,
-        });
-      } else {
+exports.find = (req, res) => {
+  if (!req.query.idAvatar)
+    avatar.getAll((err, data) => {
+      if (err)
         res.status(500).send({
           message:
-            "Erreur lors de la récupération de l'avatar avec l'id " +
-            req.params.id,
+            err.message ||
+            "Une erreur s'est produite lors de la récupération des avatars.",
         });
-      }
-    } else res.send(data);
-  });
+      else res.send(data);
+    });
+  else {
+    avatar.findById(req.query.idAvatar, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Avatar introuvable avec l'id ${req.query.idAvatar}.`,
+          });
+        } else {
+          res.status(500).send({
+            message:
+              "Erreur lors de la récupération de l'avatar avec l'id " +
+              req.query.idAvatar,
+          });
+        }
+      } else res.send(data);
+    });
+  }
 };
 
 exports.update = (req, res) => {

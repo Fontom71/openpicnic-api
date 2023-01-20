@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const equipement = require("../../controllers/equipement");
 
-router.get("/", equipement.findAll);
-
-router.get("/:id", equipement.findOne);
+router.get("/", equipement.find);
 
 router.post("/", equipement.create);
 

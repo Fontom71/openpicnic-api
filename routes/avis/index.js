@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const avis = require("../../controllers/avis");
 
-router.get("/", avis.findAll);
-
-router.get("/:idU/:idL", avis.findOne);
+router.get("/", avis.find);
 
 router.post("/", avis.create);
 

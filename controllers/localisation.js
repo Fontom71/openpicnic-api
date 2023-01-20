@@ -18,16 +18,52 @@ exports.create = (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
-  localisation.getAll((err, data) => {
-    if (err) {
-      res.status(500).send({
-        message:
-          err.message ||
-          "Une erreur s'est produite lors de la récupération des localisations.",
+exports.find = (req, res) => {
+  if (!req.query.id && !req.query.nom) {
+    localisation.getAll((err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message ||
+            "Une erreur s'est produite lors de la récupération des localisations.",
+        });
+      else res.send(data);
+    });
+  } else {
+    if (req.query.nom) {
+      localisation.findByNom(req.query.nom, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Localisation introuvable avec le nom ${req.query.nom}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération de la localisation avec le nom " +
+                req.query.nom,
+            });
+          }
+        } else res.send(data);
       });
-    } else res.send(data);
-  });
+    } else {
+      localisation.findById(req.query.id, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Localisation introuvable avec l'id ${req.query.id}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération de la localisation avec l'id " +
+                req.query.id,
+            });
+          }
+        } else res.send(data);
+      });
+    }
+  }
 };
 
 exports.findOne = (req, res) => {

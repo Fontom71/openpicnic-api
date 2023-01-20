@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const localisation = require("../../controllers/localisation");
 
-router.get("/", localisation.findAll);
-
-router.get("/:id", localisation.findOne);
+router.get("/", localisation.find);
 
 router.post("/", localisation.create);
 

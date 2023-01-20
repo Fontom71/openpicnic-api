@@ -18,34 +18,52 @@ exports.create = (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
-  favoris.getAll((err, data) => {
-    if (err) {
-      res.status(500).send({
-        message:
-          err.message ||
-          "Une erreur s'est produite lors de la récupération des favoris.",
-      });
-    } else res.send(data);
-  });
-};
-
-exports.findOne = (req, res) => {
-  favoris.findById(req.params.idU, req.params.idL, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Favoris introuvable avec l'id ${req.params.idU}.`,
-        });
-      } else {
+exports.find = (req, res) => {
+  if (!req.query.idU && !req.query.idL) {
+    favoris.getAll((err, data) => {
+      if (err)
         res.status(500).send({
           message:
-            "Erreur lors de la récupération du favoris avec l'id " +
-            req.params.idU,
+            err.message ||
+            "Une erreur s'est produite lors de la récupération des favoris.",
         });
-      }
-    } else res.send(data);
-  });
+      else res.send(data);
+    });
+  } else {
+    if (req.query.idL) {
+      favoris.findByIdL(req.query.idL, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Favoris introuvable avec l'id ${req.query.idL}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération du favoris avec l'id " +
+                req.query.idL,
+            });
+          }
+        } else res.send(data);
+      });
+    } else {
+      favoris.findByIdU(req.query.idU, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Favoris introuvable avec l'id ${req.query.idU}.`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                "Erreur lors de la récupération du favoris avec l'id " +
+                req.query.idU,
+            });
+          }
+        } else res.send(data);
+      });
+    }
+  }
 };
 
 exports.update = (req, res) => {
